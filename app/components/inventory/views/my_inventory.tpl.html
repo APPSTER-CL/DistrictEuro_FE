@@ -1,0 +1,100 @@
+<div ui-view>
+  <md-button ui-sref="upload_inventory" class="md-fab lime de-upload-button" id="de-upload-button-id"
+    ng-class="{'de-upload-button-tall-toolbar': tallToolbar}">
+    <md-icon md-svg-src="assets/icons/icUpload.svg" class="de-upload-icon">
+    </md-icon>
+    <md-tooltip md-direction="bottom">
+      {{ 'MYINVENTORY_UPLOAD_INVENTORY' | translate }}
+    </md-tooltip>
+  </md-button>
+  <md-tabs md-center-tabs="true" md-dynamic-height="true" class="de-dark-tab">
+    <md-tab label="{{ 'MYINVENTORY_INCOMPLETE' | translate }}" class="lime">
+      <md-content class="de-content-first">
+        <md-card class="page" layout-padding md-whiteframe="4">
+          <h3>{{ 'MYINVENTORY_INCOMPLETE' | translate }}</h3>
+          <table ng-table="incomplete_products.tableParams" class="table table-bordered table-condensed" layout-fill>
+            <thead>
+              <tr>
+                <th>{{'PRODUCT_SKU' | translate}}</th>
+                <th>{{'PRODUCT_QUANTITY' | translate}}</th>
+                <th>{{'PRODUCT_NAME' | translate}}</th>
+                <th>{{'PRODUCT_DESCRIPTION' | translate}}</th>
+                <th>{{'PRODUCT_ERROR' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="product in $data">
+                <td>{{product.units[0].sku}}</td>
+                <td>{{product.units[0].quantity}}</td>
+                <td><a style="cursor:pointer" ui-sref="my_inventory.incomplete_edit({incomplete_product: product})">{{product.name}}</a></td>
+                <td><de-large-description text="{{product.description}}"></de-large-description></td>
+                <td title="'PRODUCT_ERROR' | translate">
+                  <span ng-repeat="error in product.error_fields" md-colors="{color: 'warn-700'}">{{error}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </md-card>
+      </md-content>
+    </md-tab>
+    <md-tab label="{{ 'MYINVENTORY_UNAPPROVED' | translate }}">
+      <md-content class="de-content-first">
+        <md-card class="page" layout-padding md-whiteframe="4">
+          <h3>{{ 'MYINVENTORY_UNAPPROVED' | translate }}</h3>
+          <table ng-table="unapproved_inventory.tableParams" class="table table-bordered table-condensed" layout-fill>
+            <thead>
+              <tr>
+                <th>{{'PRODUCT_SKU' | translate}}</th>
+                <th>{{'PRODUCT_QUANTITY' | translate}}</th>
+                <th>{{'PRODUCT_NAME' | translate}}</th>
+                <th>{{'PRODUCT_DESCRIPTION' | translate}}</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="product in $data">
+                <td>{{product.sku}}</td>
+                <td>{{product.quantity}}</td>
+                <td><a ui-sref="my_inventory.edit({ productId: product.product_id })">{{product.name}}</a></td>
+                <td><de-large-description text="{{product.description}}"></de-large-description></td>
+                <td align="center">
+                  <md-tooltip md-delay="500">{{ 'DELETE_PRODUCT_TOOLTIP_PREFIX' | translate }} {{product.name}}</md-tooltip>
+                  <md-icon ng-click="confirmDeleteProduct(product)" class="md-warn de-button">remove_circle</md-icon>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </md-card>
+      </md-content>
+    </md-tab>
+
+    <md-tab label="{{ 'MYINVENTORY_INTHEAPP_TITLE' | translate }}">
+      <md-content class="de-content-first">
+        <md-card class="page" layout-padding md-whiteframe="4">
+          <h3>{{ 'MYINVENTORY_INTHEAPP_TITLE' | translate }}</h3>
+          <table ng-table="inventory.tableParams" class="table table-bordered table-condensed" layout-fill>
+            <thead>
+              <tr>
+                <th>{{'PRODUCT_SKU' | translate}}</th>
+                <th>{{'PRODUCT_QUANTITY' | translate}}</th>
+                <th>{{'PRODUCT_NAME' | translate}}</th>
+                <th>{{'PRODUCT_DESCRIPTION' | translate}}</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="product in $data">
+                <td>{{product.sku}}</td>
+                <td>{{product.quantity}}</td>
+                <td><a ui-sref="my_inventory.edit({ productId: product.product_id })">{{product.name}}</a></td>
+                <td><de-large-description text="{{product.description}}"></de-large-description></td>
+                <td align="center">
+                  <md-tooltip md-delay="500">{{ 'DELETE_PRODUCT_TOOLTIP_PREFIX' | translate }} {{product.name}}</md-tooltip>
+                  <md-icon ng-click="confirmDeleteProduct(product)" class="md-warn de-button">remove_circle</md-icon>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </md-card>
+      </md-content>
+    </md-tab>

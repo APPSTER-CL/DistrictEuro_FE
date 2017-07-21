@@ -1,0 +1,26 @@
+<md-dialog aria-label="Confirm Reception">
+    <md-toolbar>
+      <div class="md-toolbar-tools de-dialog-header">
+        <h3>{{ 'CONFIRM_SAMPLE_RECEPTION_TITLE' | translate }}</h3>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon aria-label="Close dialog">clear</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content layout-padding class="de-dialog">
+      <div layout="row" layout-align="center">
+        {{ 'CONFIRM_SAMPLE_RECEPTION_PREFIX' | translate }}
+        #{{sample.id}}
+        {{ 'CONFIRM_SAMPLE_RECEPTION_SUFIX' | translate }}
+      </div>
+      <div layout="row" layout-align="space-around">
+        <md-button ng-click="hide()" class="md-raised md-accent" style="color: white !important;">
+          {{ 'CONFIRM_SAMPLE_RECEPTION_CONFIRM' | translate }}
+        </md-button>
+        <md-button ng-click="cancel()" class="md-raised">
+          {{ 'CONFIRM_SAMPLE_RECEPTION_CANCEL' | translate }}
+        </md-button>
+      </div>
+    </md-dialog-content>
+</md-dialog>

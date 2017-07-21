@@ -1,0 +1,79 @@
+<div class="de-upload-button">
+  <md-fab-speed-dial md-direction="down" class="md-scale">
+    <md-fab-trigger>
+      <md-button class="md-fab lime" id="de-upload-button-id"
+        arial-label="{{ 'SAMPLES_TRANSFER_BUTTON' | translate }}">
+        <md-icon class="de-upload-icon">swap_vert</md-icon>
+      </md-button>
+    </md-fab-trigger>
+    <md-fab-actions>
+      <md-button class="md-raised md-mini de-rounded de-lower-case-button" ng-click="activateTransferToShowroom()">
+          {{ 'SAMPLE_MANAGEMENT_TO_SHOWROOM_TOOLTIP' | translate }}
+      </md-button>
+      <md-button class="md-raised md-mini de-rounded de-lower-case-button" ng-click="activateTransferToWarehouse()">
+          {{ 'SAMPLE_MANAGEMENT_TO_WAREHOUSE_TOOLTIP' | translate }}
+      </md-button>
+    </md-fab-actions>
+  </md-fab-speed-dial>
+</div>
+
+<h1 class="de-subheader de-content-first">{{ 'SAMPLE_MANAGEMENT_TITLE' | translate }}</h1>
+<md-card class="page" layout-padding md-whiteframe="4">
+  <h3>{{ 'SAMPLE_MANAGEMENT_SUBTITLE' | translate }}</h3>
+  <div layout="row" ng-show="showingTransferSample">
+    <md-input-container layout="column" flex="40" ng-hide="transferToWarehouse">
+      <label>{{ 'SAMPLE_MANAGEMENT_SHOWROOM' | translate }}</label>
+      <md-select ng-model="selectedShowroom">
+        <md-option ng-repeat="showroom in showrooms track by showroom.id" ng-value="showroom">
+          {{showroom.name}}
+        </md-option>
+      </md-select>
+    </md-input-container>
+  </div>
+  <form name="sampleTransferForm" novalidate>
+    <table ng-table="samples.tableParams" class="table table-bordered table-condensed">
+      <thead>
+        <tr>
+          <th ng-show="showingTransferSample"></th>
+          <th>{{ 'PRODUCT_QUANTITY' | translate }}</th>
+          <th>{{ 'PRODUCT_SKU' | translate }}</th>
+          <th>{{ 'PRODUCT_NAME' | translate }}</th>
+          <th>{{ 'PRODUCT_STORE' | translate }}</th>
+          <th>{{ 'SAMPLE_CURRENT_LOCATION' | translate }}</th>
+          <th ng-show="showingTransferSample">{{ 'SAMPLE_TRANSFER_QUANTITY' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="sample in $data">
+          <td ng-show="showingTransferSample">
+            <input type="checkbox" ng-model="sample.selected" ng-change="selectSample(sample)" aria-label="Send Sample"/>
+          </td>
+          <td>{{sample.quantity}}</td>
+          <td>{{sample.sku | uppercase}}</td>
+          <td>{{sample.name}}</td>
+          <td>{{sample.store}}</td>
+          <td>
+            <div class="order-cell">
+              <span ng-if="sample.location_type.toLowerCase()=='showroom'">{{'SAMPLE_MANAGEMENT_SHOWROOM' | translate }}: </span>
+              <span ng-if="sample.location_type.toLowerCase()=='warehouse'">{{'SHOWROOM_WAREHOUSE' | translate }}: </span>
+              {{sample.location_name}}
+            </div>
+          </td>
+          <td align="center" ng-show="showingTransferSample">
+            <md-input-container md-no-float style="width: auto; padding: 0px; margin: 0px;">
+              <input type="number" style="width: auto; padding: 0px; margin: 0px;" aria-label="Transfer Quantity"
+              ng-model="sample.transfer_quantity"  min="0" max="{{sample.quantity}}" ng-disabled="!sample.selected" ng-required="sample.selected"/>
+            </md-input-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</md-card>
+<div layout="row" ng-show="showingTransferSample">
+  <span flex></span>
+  <md-button class="md-raised" ng-click="hideTransferSamples()">{{ 'SHOWROOM_SEND_SAMPLE_CANCEL_BUTTON' | translate }}</md-button>
+  <md-button class="md-raised md-accent" ng-click="transferSamples()" ng-disabled="sampleTransferForm.$invalid || transfer_sample_amount==0">
+    {{ 'SAMPLE_MANAGEMENT_CONFIRM_BUTTON' | translate }}
+  </md-button>
+</div>

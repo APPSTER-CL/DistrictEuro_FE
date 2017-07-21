@@ -1,0 +1,167 @@
+<h1 class="de-subheader de-content-first">{{ 'EDITPRODUCT_TITLE' | translate }}</h1>
+<form name="productForm" ng-submit="saveProduct()" novalidate layout-padding>
+  <md-card class="page" layout-padding md-whiteframe="4">
+    <h3>{{ 'PRODUCT_GERNEAL_INFORMATION' | translate }}</h3>
+      <div layout="row" layout-xs="column" layout-align="space-between">
+          <md-input-container flex="33" flex-xs="100">
+            <label>{{ 'PRODUCT_NAME' | translate }}</label>
+            <input type="text" name="name" ng-model="product.name" required/>
+            <div ng-messages="colorForm.favoriteColor.$error">
+              <div ng-message="required">{{ "PRODUCT_NAME_REQUIRED_MSG" | translate }}</div>
+            </div>
+          </md-input-container>
+          <div layout="row" flex="33" flex-xs="100">
+            <md-input-container flex="60">
+              <label>{{ 'PRODUCT_PRICE' | translate }}</label>
+              <input type="number" name="price_amount" ng-model="product.price_amount" step="0.01"
+              ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required/>
+              <div ng-messages="colorForm.favoriteColor.$error">
+                <div ng-message="required">{{ 'PRODUCT_PRICE_REQUIRED_MSG' | translate }}</div>
+              </div>
+            </md-input-container>
+            <md-input-container flex>
+              <label>{{ 'PRODUCT_CURRENCY' | translate }}</label>
+              <md-select ng-model="product.price_currency" name="price_currency" required>
+                <md-option ng-repeat="c in currencies track by c.code" ng-value="c.code">{{c.name}}</md-option>
+              </md-select>
+              <div ng-messages="colorForm.favoriteColor.$error">
+                <div ng-message="required">{{ 'PRODUCT_CURRENCY_REQUIRED_MSG' | translate }}</div>
+              </div>
+            </md-input-container>
+          </div>
+          <md-input-container flex="34">
+            <label>{{ 'PRODUCT_CATEGORY' | translate }}</label>
+            <md-select ng-model="product.category" name="category" ng-change="loadAttributes(product.category)" required>
+                <md-option ng-repeat="c in categories track by c.id" ng-value="c.id">{{c.name}}</md-option>
+            </md-select>
+            <div ng-messages="colorForm.favoriteColor.$error">
+              <div ng-message="required">{{ 'PRODUCT_CATEGORY_REQUIRED_MSG' | translate }}</div>
+            </div>
+          </md-input-container>
+      </div>
+      <div layout="column">
+          <md-input-container>
+            <label>{{ 'PRODUCT_DESCRIPTION' | translate }}</label>
+            <textarea class="form-control" name="description" rows="1" required ng-model="product.description"></textarea>
+            <div ng-messages="colorForm.favoriteColor.$error">
+                <div ng-message="required">{{ 'PRODUCT_DESCRIPTION_REQUIRED_MSG' | translate }}</div>
+            </div>
+          </md-input-container>
+      </div>
+      <h3>{{ 'PRODUCT_IMAGES' | translate }}</h3>
+      <div layout="row" layout-align="start start">
+        <div class="de-input-container">
+          <input class="ng-hide" id="PreviewImageInput" type="file" nv-file-select="" uploader="main_image_uploader"/>
+          <label for="PreviewImageInput" class="md-button md-raised">
+            <span ng-if="!product.image">{{ 'PRODUCT_PREVIEW_IMAGE' | translate }}</span>
+            <span ng-if="product.image">{{ 'PRODUCT_PREVIEW_IMAGE_CHANGE' | translate }}</span>
+          </label>
+          <p class="de-little-help-text">{{ 'PRODUCT_PREVIEW_IMAGE_HELP_TEXT' | translate }}</p>
+        </div>
+        <div class="de-input-container">
+          <input class="ng-hide" id="DetailImageInput" type="file" multiple nv-file-select="" uploader="uploader"/>
+          <label for="DetailImageInput" class="md-button md-raised">{{ 'PRODUCT_DETAIL_IMAGE' | translate }}</label>
+          <p class="de-little-help-text">{{ 'PRODUCT_DETAIL_IMAGE_DETAIL_TEXT' | translate }}</p>
+        </div>
+      </div>
+      <div layout="row" style="overflow-y: auto;">
+        <div layout="column" layout-align="start center" ng-hide="main_image_uploader.queue.length || !product.image">
+          <img md-whiteframe="2" class="de-thumbnail" ng-src="{{product.image.url}}">
+        </div>
+        <div ng-repeat="item in main_image_uploader.queue" layout="column" layout-align="start center">
+          <div md-whiteframe="2" class="de-thumbnail"  ng-show="main_image_uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+          <md-button ng-click="item.remove()">
+            {{ 'PRODUCT_IMAGE_REMOVE' | translate }}
+            <md-icon>cancel</md-icon>
+          </md-button>
+        </div>
+        <div class="de-product-image-sep" ng-show="(uploader.queue.length || product.images.length > 0) && (product.image || main_image_uploader.queue.length)"></div>
+        <div ng-repeat="image in product.images" layout="column" layout-align="start center">
+          <img md-whiteframe="2" class="de-thumbnail" ng-src="{{image.url}}">
+          <md-button ng-click="removeImage(image)">
+            {{ 'PRODUCT_IMAGE_REMOVE' | translate }}
+            <md-icon>cancel</md-icon>
+          </md-button>
+        </div>
+        <div ng-repeat="item in uploader.queue" layout="column" layout-align="start center">
+          <div md-whiteframe="2" class="de-thumbnail"  ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+          <md-button ng-click="item.remove()">
+            {{ 'PRODUCT_IMAGE_REMOVE' | translate }}
+            <md-icon>cancel</md-icon>
+          </md-button>
+        </div>
+      </div>
+      <h3>{{ 'PRODUCT_INFOGRAPHICS' | translate }}</h3>
+      <div layout="row" layout-align="start">
+        <div class="de-input-container" layout="column" layout-align="center">
+          <input class="ng-hide" id="InfographicUploadInput" type="file" nv-file-select="" uploader="infographic_uploader" multiple/>
+          <label for="InfographicUploadInput" class="md-button md-raised">{{ 'PRODUCT_INFOGRAPHICS_ADD' | translate }}</label>
+          <p class="de-little-help-text">{{ 'PRODUCT_INFOGRAPHICS_ADD_HELP_TEXT' | translate }}</p>
+        </div>
+      </div>
+      <div layout="row" style="overflow-y: auto;">
+        <div ng-repeat="image in product.infographics" layout="column" layout-align="start center">
+          <img md-whiteframe="2" class="de-thumbnail" ng-src="{{image.url}}">
+          <md-button ng-click="removeInfographic(image)">
+            {{ 'PRODUCT_IMAGE_REMOVE' | translate }}
+            <md-icon>cancel</md-icon>
+          </md-button>
+        </div>
+        <div ng-repeat="item in infographic_uploader.queue" layout="column" layout-align="start center">
+          <div md-whiteframe="2" class="de-thumbnail"  ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+          <md-button ng-click="item.remove()">
+            {{ 'PRODUCT_IMAGE_REMOVE' | translate }}
+            <md-icon>cancel</md-icon>
+          </md-button>
+        </div>
+      </div>
+      <h3 ng-show="boolean_attributes.length">{{ 'PRODUCT_PROPERTIES' | translate }}</h3>
+      <div layout="row" layout-align="start">
+        <div layout="column">
+          <md-switch ng-repeat="attr in boolean_attributes"  ng-model="attr.selected">
+            <label>{{attr.name}}</label>
+          </md-switch>
+        </div>
+      </div>
+      <h3>{{ 'PRODUCT_SPECIFIC_INFORMATION' | translate }}</h3>
+      <div ng-repeat="unit in product.units">
+        <div layout="row" layout-xs="column">
+            <md-input-container flex="33" flex-xs="100" class="de-input-container">
+              <label>{{ 'PRODUCT_SKU' | translate }}</label>
+              <input type="text" name="sku" required ng-model="unit.sku"/>
+              <div ng-messages="colorForm.favoriteColor.$error">
+                <div ng-message="required">{{ 'PRODUCT_SKU_REQUIRED_MSG' | translate }}</div>
+              </div>
+            </md-input-container>
+            <md-input-container flex="33" flex-xs="100" class="de-input-container">
+              <label>{{ 'PRODUCT_QUANTITY' | translate }}</label>
+              <input type="number" name="quantity" required ng-model="unit.quantity"/>
+              <div ng-messages="colorForm.favoriteColor.$error">
+                <div ng-message="required">{{ 'PRODUCT_QUANTITY_REQUIRED_MSG' | translate }}</div>
+              </div>
+            </md-input-container>
+        </div>
+        <h3 ng-show="attributes">{{ 'PRODUCT_ATTRIBUTES' | translate }}</h3>
+        <div layout="row" layout-xs="column">
+          <md-input-container flex="50" flex-xs="100" ng-repeat="attr in attributes | filter:{is_boolean: false}"
+            class="de-input-container">
+            <label>{{attr.name}}</label>
+            <md-select ng-model="unit.selected_attribute[$index]">
+              <md-option ng-repeat="a in attr.values track by a.id" ng-value="a.id">{{a.value}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <hr/>
+      </div>
+      <div layout="row" ayout-align="start">
+          <md-button ng-click="addSpecificInformation()" class="de-add-specific-information">
+            <md-icon md-svg-src="assets/icons/btnaddnormal.svg"> </md-icon>
+            <span>{{ 'PRODUCT_ADD_SPECIFIC_INFORMATION' | translate }}</span>
+          </md-button>
+      </div>
+      </hr>
+  </md-card>
+  <div layout="row" layout-align="end">
+    <md-button type="submit" class="md-accent md-raised">{{ 'PRODUCT_UPLOAD_BUTTON' | translate }}</md-button>
+  </div>
+</form>

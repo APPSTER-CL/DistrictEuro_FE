@@ -1,0 +1,218 @@
+<md-tabs md-center-tabs="true" md-dynamic-height="true">
+  <md-tab label="{{ 'MYINVENTORY_UPLOAD_BY_ITEM' | translate }}">
+    <md-content class="de-content-first">
+    <form name="productForm" ng-submit="createProduct()" novalidate layout-padding>
+      <md-card class="page" layout-padding md-whiteframe="4">
+        <h3>{{ 'PRODUCT_GERNEAL_INFORMATION' | translate }}</h3>
+            <div layout="row" layout-xs="column" layout-align="space-between">
+                <md-input-container flex="33" flex-xs="100">
+                  <label>{{ 'PRODUCT_NAME' | translate }}</label>
+                  <input type="text" name="name" ng-model="product.name" required/>
+                  <div ng-messages="colorForm.favoriteColor.$error">
+                    <div ng-message="required">{{ "PRODUCT_NAME_REQUIRED_MSG" | translate }}</div>
+                  </div>
+                </md-input-container>
+                <div layout="row" flex="33" flex-xs="100">
+                  <md-input-container flex="60">
+                    <label>{{ 'PRODUCT_PRICE' | translate }}</label>
+                    <input type="number" name="price_amount" ng-model="product.price_amount" step="0.01"
+                    ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required/>
+                    <div ng-messages="colorForm.favoriteColor.$error">
+                      <div ng-message="required">{{ 'PRODUCT_PRICE_REQUIRED_MSG' | translate }}</div>
+                    </div>
+                  </md-input-container>
+                  <md-input-container flex>
+                    <label>{{ 'PRODUCT_CURRENCY' | translate }}</label>
+                    <md-select ng-model="selected_price_currency.data" name="price_currency" required>
+                      <md-option ng-repeat="c in currencies track by c.code" ng-value="c">{{c.name}}</md-option>
+                    </md-select>
+                    <div ng-messages="colorForm.favoriteColor.$error">
+                      <div ng-message="required">{{ 'PRODUCT_CURRENCY_REQUIRED_MSG' | translate }}</div>
+                    </div>
+                  </md-input-container>
+                </div>
+                <md-input-container flex="34">
+                  <label>{{ 'PRODUCT_CATEGORY' | translate }}</label>
+                  <md-select ng-model="selected_category.data" name="category" ng-change="loadAttributes(selected_category.data)" required>
+                      <md-option ng-repeat="c in categories track by c.id" ng-value="c">{{c.name}}</md-option>
+                  </md-select>
+                  <div ng-messages="colorForm.favoriteColor.$error">
+                    <div ng-message="required">{{ 'PRODUCT_CATEGORY_REQUIRED_MSG' | translate }}</div>
+                  </div>
+                </md-input-container>
+            </div>
+            <div layout="column">
+                <md-input-container>
+                  <label>{{ 'PRODUCT_DESCRIPTION' | translate }}</label>
+                  <textarea class="form-control" name="description" rows="1" required ng-model="product.description"></textarea>
+                  <div ng-messages="colorForm.favoriteColor.$error">
+                      <div ng-message="required">{{ 'PRODUCT_DESCRIPTION_REQUIRED_MSG' | translate }}</div>
+                  </div>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-align="start start">
+              <div class="de-input-container">
+                <input class="ng-hide" id="PreviewImageInput" type="file" nv-file-select="" uploader="main_image_uploader"/>
+                <label for="PreviewImageInput" class="md-button md-raised">
+                  {{ 'PRODUCT_PREVIEW_IMAGE' | translate }}
+                </label>
+                <p class="de-little-help-text">{{ 'PRODUCT_PREVIEW_IMAGE_HELP_TEXT' | translate }}</p>
+              </div>
+              <div class="de-input-container">
+                <input class="ng-hide" id="DetailImageInput" type="file" multiple nv-file-select="" uploader="uploader"/>
+                <label for="DetailImageInput" class="md-button md-raised">{{ 'PRODUCT_DETAIL_IMAGE' | translate }}</label>
+                <p class="de-little-help-text">{{ 'PRODUCT_DETAIL_IMAGE_DETAIL_TEXT' | translate }}</p>
+              </div>
+            </div>
+          <div layout="row" style="overflow-y: auto;">
+            <div ng-repeat="item in main_image_uploader.queue" layout="column" layout-align="center">
+              <div md-whiteframe="2" class="de-thumbnail" ng-show="main_image_uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }" layout-align="center"></div>
+              <md-button ng-click="item.remove()">
+                {{ 'PRODUCT_IMAGE_REMOVE' | translate }}
+                <md-icon>cancel</md-icon>
+              </md-button>
+            </div>
+            <div class="de-product-image-sep" ng-show="uploader.queue.length && main_image_uploader.queue.length"></div>
+            <div ng-repeat="item in uploader.queue" layout="column" layout-align="center">
+              <div md-whiteframe="2" class="de-thumbnail" ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+              <md-button ng-click="item.remove()">
+                {{ 'PRODUCT_IMAGE_REMOVE' | translate }}
+                <md-icon>cancel</md-icon>
+              </md-button>
+            </div>
+          </div>
+          <h3>{{ 'PRODUCT_INFOGRAPHICS' | translate }}</h3>
+          <div layout="row" layout-align="start start">
+            <div class="de-input-container"  layout="column" layout-align="center">
+              <input class="ng-hide" id="InfographicUploadInput" type="file" nv-file-select="" uploader="infographic_uploader" multiple/>
+              <label for="InfographicUploadInput" class="md-button md-raised">{{ 'PRODUCT_INFOGRAPHICS_ADD' | translate }}</label>
+              <p class="de-little-help-text">{{ 'PRODUCT_INFOGRAPHICS_ADD_HELP_TEXT' | translate }}</p>
+            </div>
+          </div>
+          <div layout="row" style="overflow-y: auto;">
+            <div ng-repeat="item in infographic_uploader.queue" layout="column" layout-align="start center">
+              <div md-whiteframe="2" class="de-thumbnail"  ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+              <md-button ng-click="item.remove()">
+                {{ 'PRODUCT_IMAGE_REMOVE' | translate }}
+                <md-icon>cancel</md-icon>
+              </md-button>
+            </div>
+          </div>
+          <h3 ng-show="boolean_attributes.length">{{ 'PRODUCT_PROPERTIES' | translate }}</h3>
+          <div layout="row" layout-align="start">
+            <div layout="column">
+              <md-switch ng-repeat="attr in boolean_attributes"  ng-model="attr.selected">
+                <label>{{attr.name}}</label>
+              </md-switch>
+            </div>
+          </div>
+          <h3>{{ 'PRODUCT_SPECIFIC_INFORMATION' | translate }}</h3>
+          <div ng-repeat="form in forms">
+            <div layout="row" layout-xs="column">
+                <md-input-container flex="33" flex-xs="100" class="de-input-container">
+                  <label>{{ 'PRODUCT_SKU' | translate }}</label>
+                  <input type="text" name="sku" required ng-model="form.data.sku"/>
+                  <div ng-messages="colorForm.favoriteColor.$error">
+                    <div ng-message="required">{{ 'PRODUCT_SKU_REQUIRED_MSG' | translate }}</div>
+                  </div>
+                </md-input-container>
+                <md-input-container flex="33" flex-xs="100" class="de-input-container">
+                  <label>{{ 'PRODUCT_QUANTITY' | translate }}</label>
+                  <input type="number" name="quantity" required ng-model="form.data.quantity"/>
+                  <div ng-messages="colorForm.favoriteColor.$error">
+                    <div ng-message="required">{{ 'PRODUCT_QUANTITY_REQUIRED_MSG' | translate }}</div>
+                  </div>
+                </md-input-container>
+            </div>
+            <h3 ng-show="selected_category.data.attributes">{{ 'PRODUCT_ATTRIBUTES' | translate }}</h3>
+            <div layout="row" layout-xs="column">
+              <md-input-container flex="50" flex-xs="100" ng-repeat="attr in selected_category.data.attributes | filter:{is_boolean: false}"
+                class="de-input-container">
+                <label>{{attr.name}}</label>
+                <md-select ng-model="form.data.attributes[$index]">
+                  <md-option ng-repeat="a in attr.values track by a.id" ng-value={{a}}>{{a.value}}</md-option>
+                </md-select>
+              </md-input-container>
+            </div>
+            <hr/>
+          </div>
+          <div layout="row" ayout-align="start">
+              <md-button ng-click="addSpecificInformation()" class="de-add-specific-information">
+                <md-icon md-svg-src="assets/icons/btnaddnormal.svg"> </md-icon>
+                <span>{{ 'PRODUCT_ADD_SPECIFIC_INFORMATION' | translate }}</span>
+              </md-button>
+          </div>
+          </hr>
+      </md-card>
+      <div layout="row" layout-align="end">
+        <md-button type="submit" class="md-accent md-raised">{{ 'PRODUCT_UPLOAD_BUTTON' | translate }}</md-button>
+      </div>
+    </form>
+    </md-content>
+  </md-tab>
+  <md-tab label="{{ 'MYINVENTORY_UPLOAD_BULK' | translate }}">
+    <md-content class="de-content-first">
+      <div layout="row" layout-align="center center ">
+        {{ 'MYINVENTORY_BULK_UPLOAD_DESCRIPTION' | translate }}
+        <md-button class="md-raised" href="https://s3.amazonaws.com/districteuro-images-demo/product_upload_template.xlsx">
+          {{ 'MYINVENTORY_BULK_UPLOAD_DOWNLOAD_TEMPLATE' | translate }}
+        </md-button>
+      </div>
+      <div layout="row" layout-align="start">
+        <div layout="column" flex="30" flex-xs="50" layout-align="center start">
+          <input class="ng-hide" id="FileBulkUploadInput" type="file" nv-file-select uploader="excel_uploader">
+          <label for="FileBulkUploadInput" class="md-button md-raised md-accent" ng-hide="excel_uploader.queue.length" style="max-width: 70px">
+            {{ 'MYINVENTORY_FILE_UPLOAD' | translate }}
+          </label>
+          <ul ng-hide="excel_uploader.queue.length==0" style="padding-left:0px;">
+            <li class="file-li" ng-repeat="item in excel_uploader.queue" layout="column">
+                <div ng-if="!item.isUploaded">
+                  <div layout="row">
+                      <md-icon flex="10">attach_file</md-icon>
+                      <span flex="80" class="small-text">{{item.file.name}}</span>
+                      <!--<md-progress-circular flex="10" md-diameter="20px" md-mode="indeterminate"></md-progress-circular>-->
+                  </div>
+                  <div layout="row" class="linear-bar">
+                      <md-progress-linear md-mode="determinate" value="{{item.progress}}"></md-progress-linear>
+                  </div>
+                </div>
+                <div layout="row" ng-if="item.isUploaded" layout-align="start">
+                  <md-icon class="lime">attach_file</md-icon>
+                  <span class="small-text">{{item.file.name}}</span>
+                  <md-icon ng-click="cancelUpload()" style="cursor: pointer;" class="clear-upload-icon">cancel</md-icon>
+                </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <md-card class="page" layout-padding md-whiteframe="4">
+        <table ng-table="vm.TableParams" class="table table-bordered table-condensed">
+          <thead>
+            <tr>
+              <th>{{'PRODUCT_QUANTITY' | translate}}</th>
+              <th>{{'PRODUCT_SKU' | translate}}</th>
+              <th>{{'PRODUCT_NAME' | translate}}</th>
+              <th>{{'PRODUCT_DESCRIPTION' | translate}}</th>
+              <th>{{'PRODUCT_CATEGORY' | translate}}</th>
+              <th>{{'PRODUCT_PRICE' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="product in uploaded_products" class="{{product.status}}">
+              <td sortable="'quantity'">{{product.units[0].quantity}}</td>
+              <td sortable="'sku'">{{product.units[0].sku}}</td>
+              <td sortable="'name'">{{product.name}}</td>
+              <td>{{product.description}}</td>
+              <td>{{product.category}}</td>
+              <td>{{product.price_amount}} {{product.price_currency}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </md-card>
+      <div layout="row" layout-align="end">
+        <md-button class="md-raised" ng-click="cancelUpload()">{{ 'MYINVENTORY_BULK_UPLOAD_CANCEL' | translate }}</md-button>
+        <md-button class="md-raised md-accent" ng-click="createProducts()">{{ 'MYINVENTORY_BULK_UPLOAD_CONFIRM' | translate }}</md-button>
+      </div>
+    </md-content>
+  </md-tab>
+</md-tabs>

@@ -1,0 +1,99 @@
+<div ui-view>
+  <md-button ui-sref="sample_dispatch" class="md-fab lime de-upload-button" id="de-upload-button-id">
+    <md-tooltip md-direction="bottom">
+      {{ 'SHOWROOM_SEND_SAMPLES_BUTTON' | translate }}
+    </md-tooltip>
+    <md-icon md-svg-src="assets/icons/icUpload.svg" class="de-upload-icon">
+    </md-icon>
+  </md-button>
+  <h1 class="de-subheader de-content-first">{{ 'SHOWROOM_TITLE' | translate }}</h1>
+  <md-card class="page" layout-padding md-whiteframe="4">
+    <h3>{{ 'SAMPLES_SENT_SUBTITLE' | translate }}</h3>
+      <div layout="column" ng-repeat="sample in dispatched.results">
+        <div layout="row" layout-align="space-between center">
+          <div layout="row" ng-if="sample.status_id!='PEN'" layout-align="center center" ng-click="changeStatus(sample)"
+           class="de-change-status">
+            <md-tooltip md-direction="top">
+              Click to edit
+            </md-tooltip>
+            <div class="order-cell" style="padding-left: 0px;">
+              <span>#</span>{{sample.id}}
+            </div>
+            <div class="order-cell">
+              <span>{{ 'SHIPPEDSTATUS_COMPANY' | translate }}: </span>{{sample.shipping_company}}
+            </div>
+            <div class="order-cell">
+              <span>{{ 'SHIPPEDSTATUS_TRACKINGNUM' | translate }}: </span>{{sample.tracking_number}}
+            </div>
+          </div>
+          <div layout="row" ng-if="sample.status_id=='PEN'">
+            <md-button ng-click="changeStatus(sample)" class="de-lower-case-button" style="margin: 0px;">
+              <md-icon md-svg-src="assets/icons/btnaddnormal.svg"> </md-icon>
+              <span> Add tracking information</span>
+            </md-button>
+          </div>
+          <span>
+            <span>{{ 'WITH_DATE' | translate:{date:sample.created} }}</span>
+          </span>
+        </div>
+        <div layout="row" layout-align="space-between center">
+          <div layout="row" class="de-status" style="margin-bottom: 10px;">
+            <div layout-align="center">
+              <md-icon ng-if="sample.status_id=='PRG'" md-svg-src="assets/icons/icProgress.svg" class="order-icon"></md-icon>
+              <md-icon ng-if="sample.status_id=='SHP'" md-svg-src="assets/icons/icShipped.svg" class="order-icon"></md-icon>
+              <md-icon ng-if="sample.status_id=='PEN'" md-svg-src="assets/icons/icPending.svg" class="order-icon"></md-icon>
+            </div>
+            <span>{{sample.status}}</span>
+          </div>
+          <span>
+            {{sample.warehouse.name}}, {{sample.warehouse.address}}, {{sample.warehouse.city}} {{sample.warehouse.country}}
+          </span>
+        </div>
+        <table class="table table-bordered table-condensed">
+          <thead>
+            <tr>
+              <th>{{ 'PRODUCT_SKU' | translate }}</th>
+              <th>{{ 'PRODUCT_NAME' | translate }}</th>
+              <th>{{ 'PRODUCT_QUANTITY' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="unit in sample.samples_units">
+              <td>{{unit.sku}}</td>
+              <td>{{unit.name}}</td>
+              <td>{{unit.quantity}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div layout="row" layout-align="start">
+        <ul class="pagination">
+          <li ng-class="{ 'disabled': dispatched.previous == null }"><a ng-click="getSamplesDispatched({url:dispatched.previous})">«</a></li>
+          <li ng-class="{ 'disabled': dispatched.next == null }"><a ng-click="getSamplesDispatched({url:dispatched.next})">»</a></li>
+        </ul>
+      </div>
+  </md-card>
+  <md-card class="page" layout-padding md-whiteframe="4">
+    <h3>{{ 'SHOWROM_DELIVERED_SAMPLES' | translate }}</h3>
+    <table ng-table="samples.tableParams" class="table table-bordered table-condensed">
+      <thead>
+        <tr>
+          <th>{{ 'PRODUCT_QUANTITY' | translate }}</th>
+          <th>{{ 'PRODUCT_SKU' | translate }}</th>
+          <th>{{ 'PRODUCT_NAME' | translate }}</th>
+          <th>{{ 'PRODUCT_DESCRIPTION' | translate }}</th>
+          <th>{{ 'SHOWROOM_WAREHOUSE' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="sample in $data">
+          <td>{{sample.quantity}}</td>
+          <td>{{sample.sku | uppercase}}</td>
+          <td>{{sample.name}}</td>
+          <td><de-large-description text="{{sample.description}}"></de-large-description></td>
+          <td>{{sample.warehouse}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </md-card>
+</div>

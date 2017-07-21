@@ -1,0 +1,69 @@
+<md-content ng-controller="ApplicationCtrl" ng-cloak layout-fill>
+  <md-toolbar id="de-toolbar-id" class="de-header-container md-medium" md-whiteframe="4" layout="row" md-scroll-shrink="false"
+  md-colors="{background: '{{toolbarBackground}}'}" ng-class="{'md-tall': tallToolbar}">
+    <div class="md-toolbar-tools" style="padding: 0 !important;">
+      <span class="md-icon-button de-hamburger">
+        <md-button ng-click="onMenuClick()" md-no-ink>
+          <md-icon class="de-header-icon" md-colors="{color: '{{fontColor}}'}">{{menuIcon}}</md-icon>
+        </md-button>
+      </span>
+      <span class="de-district-euro de-header">
+        <a href="" ng-click="goHome()" md-colors="{color: '{{fontColor}}'}">{{ 'GENERAL_TITLE' | translate }}
+        </a>
+      </span>
+      <span flex=""></span>
+      <md-menu md-offset="0 50" style="margin-right: 10px;">
+        <md-button ng-click="$mdOpenMenu($event)" class="de-lower-case-button" style="font-size: 14px">
+          <span md-colors="{color: '{{fontColor}}'}">{{currentUser.email}}</span>
+        </md-button>
+        <md-menu-content width="3">
+          <!--<md-menu-item><md-button style="color: #4a4a4a;">{{ 'MENU_PROFILE' | translate }}</md-button></md-menu-item>-->
+          <md-menu-item><md-button style="color: #4a4a4a;" ui-sref="logout">{{ 'MENU_LOGOUT' | translate}}</md-button></md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <md-menu md-offset="0 50" style="margin-right: 10px;">
+        <md-button ng-click="$mdOpenMenu($event)" class="de-lower-case-button" style="font-size: 14px">
+          <md-icon md-colors="{color: '{{fontColor}}'}">arrow_drop_down</md-icon>
+          <span md-colors="{color: '{{fontColor}}'}">{{selectedLanguage.name}}</span>
+        </md-button>
+        <md-menu-content width="3">
+            <md-menu-item ng-repeat="lang in languages">
+            <md-button style="color: #4a4a4a;" ng-click="selectLanguage(lang.code, true)" ng-class="{'lime': lang.selected }">
+              {{lang.name}}
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+    </div>
+  </md-toolbar>
+  <md-sidenav class="md-sidenav-left" md-component-id="left" md-disable-backdrop="true" md-whiteframe="4" ng-hide="parentView"
+    ng-class="{'de-sidenav-tall-tollbar': tallToolbar}">
+    <md-toolbar>
+      <h1 class="md-toolbar-tools">{{ 'MENU_TITLE' | translate }}</h1>
+    </md-toolbar>
+    <md-content layout="column" layout-align="start start">
+      <md-button ng-repeat="menu in user_menues" layout="row" ui-sref-active="de-menu-active" layout-align="start center"
+       ui-sref="{{menu.state}}" class="de-menu-button">
+        <div>
+          <md-icon md-svg-src="{{menu.icon}}" class="de-header-icon"></md-icon>
+        </div>
+        <span class="de-menu-text" ng-class="{'de-menu-opened': navBarOpen}">{{ menu.name | translate }}</span>
+      </md-button>
+    </md-content>
+  </md-sidenav>
+  <div id="toastTo"></div>
+  <section layout="row" layout-fill></div>
+    <div flex-xs="5" flex-md="10" flex></div>
+    <md-content class="de-content" flex-xs="90" flex-md="80" flex="65" ng-class="{'de-content-tall-toolbar': tallToolbar}">
+      <div ui-view="base" layout="column"></div>
+      <div class="footer">
+        <div class="footer-inner">
+          <p>
+            {{ 'GENERAL_FOOTERCOPYRIGHT' | translate }}
+          </p>
+        </div>
+      </div>
+    </md-content>
+    <div flex></div>
+  </section>
+</md-content>

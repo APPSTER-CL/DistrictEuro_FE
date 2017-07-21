@@ -1,0 +1,81 @@
+<h1 class="de-subheader de-content-first">{{'SHOWROOM_SEND_SAMPLES_TITLE' | translate }}</h1>
+<md-card class="page" layout-padding md-whiteframe="4">
+  <md-content layout="row" layout-padding>
+    <div layout="column" flex="50">
+      <md-input-container>
+        <label>{{ 'SHOWROOM_WAREHOUSE_INPUT' | translate }}</label>
+        <md-select ng-model="selectedWarehouse">
+          <md-option ng-repeat="warehouse in warehouses track by warehouse.name" ng-value="warehouse">
+            {{warehouse.city}}, {{warehouse.country}} - {{warehouse.name}}
+          </md-option>
+        </md-select>
+        <div class="md-errors-spacer"></div>
+      </md-input-container>
+      <md-input-container>
+        <label>{{ 'SHOWROOM_SHIPPING_ADDRESS_INPUT' | translate }}</label>
+        <input ng-model="selectedWarehouse.address" type="text" readonly="true">
+      </md-input-container>
+    </div>
+    <div layout="column" flex="50">
+      <md-input-container>
+        <label>{{ 'SHOWROOM_TRACKING_NUMBER_INPUT' | translate }}</label>
+        <input ng-model="tracking_number" type="text">
+      </md-input-container>
+      <md-input-container>
+        <label>{{ 'SHOWROOM_SHIPPING_COMPANY_INPUT' | translate }}</label>
+        <input ng-model="shipping_company" type="text">
+      </md-input-container>
+    </div>
+  </md-content>
+</md-card>
+<md-card class="page" layout-padding md-whiteframe="4">
+  <h3>{{ 'SHOWROOM_MY_INVENTORY_SUBTITLE' | translate }}</h3>
+  <form name="sampleDispatchForm" novalidate>
+    <table ng-table="inventory.tableParams" class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>{{ 'PRODUCT_SKU' | translate }}</th>
+          <th>{{ 'PRODUCT_NAME' | translate }}</th>
+          <th>{{ 'PRODUCT_QUANTITY' | translate }}</th>
+          <th>{{ 'PRODUCT_DESCRIPTION' | translate }}</th>
+          <th>{{ 'PRODUCT_ATTRIBUTES' | translate }}</th>
+          <th>{{ 'SHOWROOM_SEND_SAMPLE_QUANTITY' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in $data">
+          <td><input type="checkbox" ng-model="item.selected" ng-change="selectUnit(item)"/></td>
+          <td>{{item.sku}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.quantity}}</td>
+          <td><de-large-description text="{{item.description}}"></de-large-description></td>
+          <td>
+            <span ng-algin="center">
+              <span ng-show="item.attributes.length > 0">{{item.attributes[0].attribute_name}}: {{item.attributes[0].value}}</span>
+              <span ng-algin="center" ng-show="item.attributes.length > 1">...</span>
+              <md-tooltip md-direction="center">
+               <span class="tooltipBreak" ng-show="item.attributes.length > 1" ng-repeat="attribute in item.attributes">
+                 {{attribute.attribute_name}}: {{attribute.value}}
+               </span>
+              </md-tooltip>
+            </span>
+          </td>
+          <td align="center">
+            <md-input-container md-no-float style="width: auto; padding: 0px; margin: 0px;">
+              <input type="number" style="width: auto; padding: 0px; margin: 0px;"
+              ng-model="item.dispatch_quantity"  min="0" max="{{item.quantity}}" ng-disabled="!item.selected" ng-required="item.selected"/>
+            </md-input-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</md-card>
+<div layout="row">
+  <span flex></span>
+  <md-button class="md-raised" ng-click="goBack()">{{ 'SHOWROOM_SEND_SAMPLE_CANCEL_BUTTON' | translate }}</md-button>
+  <md-button class="md-raised md-accent" ng-click="sendSamples()" ng-disabled="warehouses.length == 0 || dispatch_units_amount == 0 || sampleDispatchForm.$invalid">
+    {{ 'SHOWROOM_SEND_SAMPLE_CONFIRM_BUTTON' | translate }}
+  </md-button>
+</div>

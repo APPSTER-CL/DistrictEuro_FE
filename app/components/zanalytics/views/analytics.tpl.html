@@ -1,0 +1,19 @@
+
+<h1 class="de-subheader de-content-first">{{ 'ANALYTICS_TITLE' | translate }}</h1>
+
+<md-card class="page" layout-padding md-whiteframe="4">
+  <h3>{{ 'ANALYTICS_SALES_SUBTITLE' | translate }}</h3>
+  <div  class="row">
+    <canvas id="line" class="chart chart-line"
+      chart-data="sales.data" chart-labels="sales.labels">
+    </canvas>
+  </div>
+</md-card>
+<md-card class="page" layout-padding md-whiteframe="4">
+  <h3>{{ 'ANALYTICS_VISITS_SUBTITLE' | translate }}</h3>
+  <div class="row">
+    <canvas id="line" class="chart chart-line"
+      chart-data="visits.data" chart-labels="visits.labels">
+    </canvas>
+  </div>
+</md-card>

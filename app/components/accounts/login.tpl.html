@@ -1,0 +1,39 @@
+<md-content layout="row" style="padding-top: 10vh" ng-cloak>
+			<div flex></div>
+			<md-card class="page" md-whiteframe="8" flex="33">
+				<div layout="row" layout-align="end">
+					<md-menu md-offset="0 50" style="margin-right: 10px;">
+		        <md-button ng-click="$mdOpenMenu($event)" class="de-lower-case-button" style="font-size: 14px">
+		          <md-icon>arrow_drop_down</md-icon>
+		          <span>{{selectedLanguage.name}}</span>
+		        </md-button>
+		        <md-menu-content width="3">
+		            <md-menu-item ng-repeat="lang in languages">
+		            <md-button style="color: #4a4a4a;" ng-click="selectLanguage(lang.code)" ng-class="{'lime': lang.selected }">
+		              {{lang.name}}
+		            </md-button>
+		          </md-menu-item>
+		        </md-menu-content>
+		      </md-menu>
+				</div>
+				<div layout="row" style="margin-bottom: 50px;">
+						<div flex></div>
+						<form name="loginform" role="form" ng-submit="login()" novalidate layout="column" layout-padding flex="80">
+							<md-input-container class="de-content-first">
+							  <label>{{ 'LOGIN_EMAIL' | translate }}</label>
+							  <input type="text" ng-model="credentials.email" required>
+							</md-input-container>
+							<md-input-container>
+							  <label>{{ 'LOGIN_PASSWORD' | translate }}</label>
+							  <input type="password" ng-model="credentials.password" ng-required="!forgotPassword">
+							</md-input-container>
+							<md-button type="submit" class="md-raised has-spinner md-accent" ng-class="{active: loading}" ng-disabled="loading || loginform.$invalid" >
+								<span ng-hide="forgotPassword">{{ 'LOGIN_LOGINBUTTON' | translate }}</span><span ng-show="forgotPassword">{{ 'LOGIN_SENDEMAILBUTTON' | translate }}</span>
+								<span class="spinner"><i class="fa fa-spin fa-refresh"></i></span>
+							</md-button>
+						</form>
+						<div flex></div>
+				</div>
+			</md-card>
+			<div flex></div>
+</md-content>

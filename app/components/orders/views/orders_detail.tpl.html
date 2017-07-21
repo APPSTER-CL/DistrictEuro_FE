@@ -1,0 +1,63 @@
+
+<h1 class="de-subheader de-content-first">{{ 'ORDERDETAIL_TITLE' | translate }}</h1>
+<div layout-padding layout="row">
+    <div layout="column" layout-align="center start">
+      <span>{{ 'WITH_DATE' | translate:{date:orders_detail.data.created} }}</span>
+      <span style="font-size: 12px;">{{ 'ORDERDETAIL_NUMBER' | translate }} {{orders_detail.data.id}}</span>
+    </div>
+    <div layout="row" layout-align="center center" flex>
+      <span class="de-input-container">{{orders_detail.data.consumer.full_name}}</span>
+      <span class="de-input-container">
+        <i class="fa fa-map-marker" aria-hidden="true"></i>
+        <a href="http://maps.google.com/?q={{orders_detail.data.shipping_address}}" target="_blank" style="color:inherit;text-decoration: underline;">{{orders_detail.data.shipping_address}}</a>
+      </span>
+      <span ng-if="orders_detail.data.consumer.phone" class="de-input-container">
+        <i class="fa fa-phone" aria-hidden="true"></i> {{orders_detail.data.consumer.phone}}
+      </span>
+    </div>
+    <div layout="column" layout-align="center end">
+      <div class="order-status">
+        <md-icon ng-if="orders_detail.data.status_id=='PRG'" md-svg-src="assets/icons/icProgress.svg" class="order-icon"></md-icon>
+        <md-icon ng-if="orders_detail.data.status_id=='SHP'" md-svg-src="assets/icons/icShipped.svg" class="order-icon"></md-icon>
+        <md-icon ng-if="orders_detail.data.status_id=='PEN'" md-svg-src="assets/icons/icPending.svg" class="order-icon"></md-icon>
+        <md-icon ng-if="orders_detail.data.status_id=='RET'" md-svg-src="assets/icons/icReturn.svg" class="order-icon"></md-icon>
+        {{orders_detail.data.status}}
+      </div>
+    </div>
+</div>
+<md-card layout="column" layout-padding md-whiteframe="4">
+  <table ng-table="vm.tableParamsDetails" show-filter="false" class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>{{'PRODUCT_IMAGES' | translate}}</th>
+        <th>{{'PRODUCT_QUANTITY' | translate}}</th>
+        <th>{{'PRODUCT_SKU' | translate}}</th>
+        <th>{{'PRODUCT_NAME' | translate}}</th>
+        <th>{{'PRODUCT_DESCRIPTION' | translate}}</th>
+        <th>{{'PRODUCT_PRICE' | translate}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="order in orders_detail.data.order_items">
+        <td align="center"><img ng-src="{{order.image.small_url || '/assets/img/no_product.png'}}" height="40"></td>
+        <td>{{order.quantity}}</td>
+        <td>{{order.sku}}</td>
+        <td>{{order.name}}</td>
+        <td><de-large-description text="{{order.description}}"></de-large-description></td>
+        <td>{{order.unit_price}}</td>
+      </tr>
+    </tbdoy>
+  </table>
+  <div layout="row" layout-align="end">
+    <b>{{ 'ORDERDETAIL_TOTAL' | translate }}: {{orders_detail.data.total_price}}</b>
+  </div>
+</md-card>
+
+<div layout="row" layout-align="end">
+  <md-button ng-if="orders_detail.data.status_id=='PEN'" ng-click="changeStatus()" class="md-accent md-raised">
+    {{ 'ORDERDETAIL_PENDINGCHANGESTATUSBUTTON' | translate }}
+  </md-button>
+  <md-button ng-if="orders_detail.data.status_id=='PRG'" ng-click="changeStatus()" class="md-accent md-raised">
+    {{ 'ORDERDETAIL_INPROGRESSCHANGESTATUSBUTTON' | translate }}
+  </md-button>
+</div>

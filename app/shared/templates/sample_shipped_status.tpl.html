@@ -1,0 +1,33 @@
+<md-dialog aria-label="{{ 'SHIPPEDSTATUS_TITLE' | translate }}">
+    <md-toolbar>
+      <div class="md-toolbar-tools de-dialog-header">
+        <h3>{{ 'SHIPPEDSTATUS_TITLE' | translate }}</h3>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon aria-label="Close dialog">clear</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content layout-padding class="de-dialog">
+      <div layout="column">
+        <div layout="column">
+          <span>
+            {{sample.warehouse.name}}, {{sample.warehouse.address}}, {{sample.warehouse.city}} {{sample.warehouse.country}}
+          </span>
+        </div>
+        <form id="shippedform" name="shippedform" role="form" novalidate layout="column">
+          <md-input-container>
+            <input name="company" ng-model="shipping.company" type="text" placeholder="{{ 'SHIPPEDSTATUS_COMPANY' | translate }}" required ng-keyup="validate()">
+          </md-input-container>
+          <md-input-container>
+            <input name="tracking_num" ng-model="shipping.tracking_num" type="text" placeholder="{{ 'SHIPPEDSTATUS_TRACKINGNUM' | translate }}" required ng-keyup="validate()">
+          </md-input-container>
+          <div layout="row" layout-align="center">
+            <md-button ng-disabled="!valid_form" type="submit" ng-click="shipped()" class="md-raised md-accent">
+             {{ 'SHOWROOM_TRACKING_INFORMATION_EDIT_CONFIRM' | translate }}
+            </md-button>
+          </div>
+        </form>
+      </div>
+    </md-dialog-content>
+</md-dialog>

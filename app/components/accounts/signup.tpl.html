@@ -1,0 +1,71 @@
+<div class="form-page register-page">
+  <div class="row">
+    <div class="col-md-4 col-lg-4 col-md-offset-4 col-lg-offset-4">
+      <h1>{{ 'SIGNUP_TITLE' | translate }}</h1>
+      <div class="row account">
+        <div class="col-md-12">
+          {{ 'SIGNUP_REQUIREDFIELDS' | translate }}
+        </div>
+      </div>
+      <form name="registerform" role="form" ng-submit="register()" novalidate>
+        <div class="form-content">
+          <!-- Name -->
+          <div class="row form-group">
+            <div class="col-md-12">
+              <label class="control-label">{{ 'SIGNUP_FIRSTNAMELABEL' | translate }}</label>
+              <input name="name" ng-model="account.name" type="text" class="form-control" placeholder="{{ 'SIGNUP_FIRSTNAME' | translate }}" required>
+              <span class="control-label err" ng-show="!valid && registerform.name.$invalid">{{ 'SIGNUP_REQUIRED' | translate }}</span>
+            </div>
+          </div>
+          <!-- Apellido Paterno -->
+          <div class="row form-group">
+            <div class="col-md-12">
+              <label class="control-label">{{ 'SIGNUP_LASTNAMELABEL' | translate }}</label>
+              <input name="lastname" ng-model="account.lastname" type="text" class="form-control" placeholder="{{ 'SIGNUP_LASTNAME' | translate }}" required>
+              <span class="control-label err" ng-show="!valid && registerform.lastname.$invalid">{{ 'SIGNUP_REQUIRED' | translate }}</span>
+            </div>
+          </div>
+          <!-- Email | Password -->
+          <div class="row form-group">
+            <div class="col-md-12">
+              <label class="control-label">{{ 'SIGNUP_EMAILLABEL' | translate }}</label>
+              <input name="name" ng-model="account.email" type="email" class="form-control" placeholder="{{ 'SIGNUP_EMAIL' | translate }}" required>
+              <span class="control-label err" ng-show="!valid && registerform.name.$invalid">{{ 'SIGNUP_REQUIRED' | translate }}</span>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-md-12">
+              <label class="control-label">{{ 'SIGNUP_PASSWORDLABEL' | translate }}</label>
+              <input id="password1" name="password1" ng-model="account.password" type="password" class="form-control" placeholder="{{ 'SIGNUP_PASSWORD' | translate }}" required>
+              <span class="control-label err" ng-show="!valid && registerform.name.$invalid">{{ 'SIGNUP_REQUIRED' | translate }}</span>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-md-12">
+              <label class="control-label">{{ 'SIGNUP_CONFIRMLABEL' | translate }}</label>
+              <input id="password2" name="password2" ng-model="account.passwordCheck" type="password" class="form-control" placeholder="{{ 'SIGNUP_CONFIRM' | translate }}" required compare-to="password1">
+              <span class="control-label err" ng-show="registerform.password2.$error.pwmatch">{{ 'SIGNUP_PASSWORDDONTMATCH' | translate }}</span>
+            </div>
+          </div>
+          <div class="row form-group text-center">
+            <div class="col-md-12">
+              {{ 'SIGNUP_TERMSANDCONDITIONS1' | translate }}<a href="#">{{ 'SIGNUP_TERMSANDCONDITIONS2' | translate }}</a>
+            </div>
+          </div>
+          <!-- Boton de Registro -->
+          <div class="form-group">
+            <button type="submit" class="btn de-end-button has-spinner" ng-class="{active: loading}" ng-disabled="loading || registerform.$invalid">
+              {{ 'SIGNUP_SIGNUPBUTTON' | translate }}
+              <span class="spinner"><i class="fa fa-spin fa-refresh"></i></span>
+            </button>
+          </div>
+          <div class="row form-group text-center">
+            <div class="col-md-12">
+              {{ 'SIGNUP_LOGINBUTTON1' | translate }}<a ui-sref="login">{{ 'SIGNUP_LOGINBUTTON2' | translate }}</a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

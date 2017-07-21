@@ -1,0 +1,70 @@
+<div ui-view>
+  <h1 class="de-subheader de-content-first">{{ 'SHIPPING_TITLE' | translate }}</h1>
+  <md-card class="page" layout-padding md-whiteframe="4">
+    <h3>{{ 'SAMPLES_SENT_SUBTITLE' | translate }}</h3>
+      <div layout="column" ng-repeat="sample in dispatched.results">
+        <div layout="row" layout-align="space-between center">
+          <div layout="row" layout-align="center center"
+           class="de-change-status" style="cursor: auto;">
+            <div class="order-cell" style="padding-left: 0px;">
+              <span>#</span>{{sample.id}}
+            </div>
+            <div class="order-cell">
+              <span>{{ 'SHIPPEDSTATUS_COMPANY' | translate }}: </span>{{sample.shipping_company}}
+            </div>
+            <div class="order-cell">
+              <span>{{ 'SHIPPEDSTATUS_TRACKINGNUM' | translate }}: </span>{{sample.tracking_number}}
+            </div>
+            <div class="order-cell">
+              <span>{{ 'SAMPLE_INFORMATION_STORE' | translate }}: </span>{{sample.store}}
+            </div>
+          </div>
+          <span>
+            <span>{{ 'WITH_DATE' | translate:{date:sample.created} }}</span>
+          </span>
+        </div>
+        <div layout="row" layout-align="space-between center">
+          <div layout="row" class="de-status" style="margin-bottom: 10px;">
+            <div layout-align="center">
+              <md-icon ng-if="sample.status_id=='PRG'" md-svg-src="assets/icons/icProgress.svg" class="order-icon"></md-icon>
+              <md-icon ng-if="sample.status_id=='SHP'" md-svg-src="assets/icons/icShipped.svg" class="order-icon"></md-icon>
+              <md-icon ng-if="sample.status_id=='PEN'" md-svg-src="assets/icons/icPending.svg" class="order-icon"></md-icon>
+              <md-icon ng-if="sample.status_id=='DLV'" md-svg-src="assets/icons/icDelivered.svg" class="order-icon"></md-icon>
+            </div>
+            <span>{{sample.status}}</span>
+          </div>
+          <!--<span>
+            {{sample.warehouse.name}}, {{sample.warehouse.address}}, {{sample.warehouse.city}} {{sample.warehouse.country}}
+          </span>-->
+          <div layout="row">
+            <md-button ng-click="confirmReceived(sample)" class="de-lower-case-button" style="margin: 0px;" ng-if="sample.status_id!='DLV'">
+              <md-icon>done</md-icon>
+              <span>Confirm Received</span>
+            </md-button>
+          </div>
+        </div>
+        <table class="table table-bordered table-condensed">
+          <thead>
+            <tr>
+              <th>{{ 'PRODUCT_SKU' | translate }}</th>
+              <th>{{ 'PRODUCT_NAME' | translate }}</th>
+              <th>{{ 'PRODUCT_QUANTITY' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="unit in sample.samples_units">
+              <td>{{unit.sku}}</td>
+              <td>{{unit.name}}</td>
+              <td>{{unit.quantity}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div layout="row" layout-align="start">
+        <ul class="pagination">
+          <li ng-class="{ 'disabled': dispatched.previous == null }"><a ng-click="getSamplesDispatched({url:dispatched.previous})">«</a></li>
+          <li ng-class="{ 'disabled': dispatched.next == null }"><a ng-click="getSamplesDispatched({url:dispatched.next})">»</a></li>
+        </ul>
+      </div>
+  </md-card>
+</div>

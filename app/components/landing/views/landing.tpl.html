@@ -1,0 +1,210 @@
+<div ui-view id="landing">
+    <div class="header first-row" layout="column">
+        <div layout="row" layout-align="space-between center" class="sign-up">
+          <div layout="row" >
+            <md-select class="language-selector" ng-model="lang.currentLanguage" aria-label="language"
+             ng-change="selectLanguage()" ng-model-options="{trackBy: '$value.code'}">
+             <md-option ng-repeat="lang in languages" ng-value="{{lang}}">
+               {{lang.name}}
+             </md-option>
+           </md-select>
+          </div>
+          <div>
+            <md-button class="sign-up-button" ng-click="goToSignUp()">
+                <span>{{ 'LANDING_SIGNUP' | translate }}</span>
+            </md-button>
+            <span>{{ 'LANDING_TO_BE_NOTIFIED_OR' | translate }}</span>
+            <span class="vendor-login-button" ui-sref="login">{{ 'LANDING_LOGIN' | translate }}</span>
+            <span>{{ 'LANDING_AS_A_VENDOR' | translate }}</span>
+          </div>
+        </div>
+        <div layout="row" class="oumimen">
+            <div flex="40" flex-offset="5" flex-offset-gt-xs="10" layout="column" layout-align="start start">
+                <img src="assets/img/landing/logo.png" class="logo">
+                <div class="title">
+                    <span class="first">{{ 'LANDING_SLOGAN' | translate }}</span><br/>
+                    <p class="second">{{ 'LANDING_OUMIMEN_SHORT_DESCRIPTION' | translate }}</p>
+                </div>
+            </div>
+            <div flex="50"></div>
+        </div>
+    </div>
+    <div layout="column" layout-padding class="second-row">
+        <div layout="row">
+          <div flex="10" flex-gt-xs="50"></div>
+          <div flex="25" class="phone-box first-phone">
+            <div layout="column" class="oumimen-characteristic">
+                <span>{{ 'LANDING_EXPLORE_EUROPE_1' | translate }}</span>
+                <strong>{{ 'LANDING_EXPLORE_EUROPE_BOLD' | translate }}</strong>
+                <span>{{ 'LANDING_EXPLORE_EUROPE_2' | translate }}</span>
+            </div>
+            <img class="arrow" ng-src="./assets/img/landing/arrow-right.svg">
+            <img class="phone" ng-src="./assets/img/landing/phone_exploreeurope.png">
+          </div>
+        </div>
+        <div layout="row">
+          <div flex-offset-gt-sm="15" layout="row" class="phone-box second-phone">
+            <div layout="column" class="oumimen-characteristic">
+                <strong>{{ 'LANDING_BUY_BOLD' | translate }}</strong>
+                <span>{{ 'LANDING_BUY_1' | translate }}</span>
+            </div>
+            <img class="arrow" ng-src="./assets/img/landing/arrow-right.svg">
+            <img class="phone" ng-src="./assets/img/landing/phone_product.png">
+            <img class="arrow" ng-src="./assets/img/landing/arrow-left.svg">
+            <div layout="column" class="oumimen-characteristic">
+                <strong>{{ 'LANDING_TRY_BOLD' | translate }}</strong>
+                <span>{{ 'LANDING_TRY_1' | translate }}</span>
+            </div>
+          </div>
+        </div>
+        <div layout="row" layout-align="center center" >
+          <div flex-offset-gt-xs="40" layout="row" class="phone-box third-phone">
+            <div layout="column" class="oumimen-characteristic">
+                <span>{{ 'LANDING_SHOWROOMS_1' | translate }}</span>
+                <strong>{{ 'LANDING_SHOWROOMS_BOLD' | translate }}</strong>
+                <span>{{ 'LANDING_SHOWROOMS_2' | translate }}</span>
+            </div>
+            <img class="arrow" ng-src="./assets/img/landing/arrow-right.svg">
+            <img class="phone" ng-src="./assets/img/landing/phone_showroom.png">
+          </div>
+        </div>
+    </div>
+    <div layout="column" layout-align="center center" class="third-row">
+        <h2>OUMIMEN 欧迷们</h2>
+        <div layout="column" layout-gt-sm="row" layout-align-gt-sm="center start" layout-padding>
+            <div layout="column" class="oumimen-description" flex-gt-sm="40" flex-offset-gt-sm="10">
+                <p>{{ 'LANDING_OUMIMEN_DESCRIPTION_1' | translate }}</p>
+                <p>{{ 'LANDING_OUMIMEN_DESCRIPTION_2' | translate }}</p>
+            </div>
+            <div layout="column" flex-gt-sm="40" layout-align="start center">
+                <h3 id="signUpFormTitle">{{ 'LANDING_COMING_SOON' | translate }}</h3>
+                <h4>{{ 'LANDING_SIGN_UP_REQUEST' | translate }}</h4>
+                <form ng-submit="notify()" class="sign-up-form" id="signUpForm" name="signUpForm" novalidate>
+                    <div layout="column" layout-padding>
+                        <label>{{ 'LANDING_EMAIL' | translate }}</label>
+                        <div layout="row">
+                            <input ng-model="signUp.email" required ng-required="true" type="email"></input>
+                        </div>
+                        <label>{{ 'LANDING_NAME' | translate }}</label>
+                        <div layout="row">
+                            <input ng-model="signUp.name" required="true" type="text"></input>
+                        </div>
+                        <div layout-align="center center" layout="column">
+                            <md-button ng-disabled="signUpForm.$invalid" type="submit" class="sign-up-button">
+                                {{ 'LANDING_SIGNUP' | translate }}
+                            </md-button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div layout-gt-sm="row" layout="column" layout-align="center center" class="fourth-row" layout-padding>
+        <img class="first-box" ng-src="./assets/img/landing/table_food.png">
+        <div flex-gt-sm="30" class="second-box">
+            <h2>{{ 'LANDING_WHO_WE_ARE' | translate }}</h2>
+            <p>{{ 'LANDING_WHO_WE_ARE_DESCRIPTION' | translate }}</p>
+        </div>
+    </div>
+    <div layout="column" layout-align="center center" class="fifth-row" layout-padding>
+        <h2>{{ 'LANDING_WHAT_WE_OFFER' | translate }}</h2>
+        <div layout-gt-sm="row" layout-sm="column" layout-align="space-around">
+            <div class="box" layout="column" layout-align="center center" flex-gt-sm="30">
+                <img src="./assets/img/landing/box.svg">
+                <h3>{{ 'LANDING_OFFER_TITLE_1' | translate }}</h3>
+                <p>{{ 'LANDING_OFFER_DESCRIPTION_1' | translate }}</p>
+            </div>
+            <div class="box" layout="column" layout-align="center center" flex-gt-sm="30">
+                <img src="./assets/img/landing/alert.svg">
+                <h3>{{ 'LANDING_OFFER_TITLE_2' | translate }}</h3>
+                <p>{{ 'LANDING_OFFER_DESCRIPTION_2' | translate }}</p>
+            </div>
+            <div class="box" layout="column" layout-align="center center" flex-gt-sm="30">
+                <img src="./assets/img/landing/chat.svg">
+                <h3>{{ 'LANDING_OFFER_TITLE_3' | translate }}</h3>
+                <p>{{ 'LANDING_OFFER_DESCRIPTION_3' | translate }}</p>
+            </div>
+        </div>
+    </div>
+    <div layout="column" layout-align="center center" class="sixth-row">
+        <h2>{{ 'LANDING_JOIN_US_TITLE' | translate }}</h2>
+        <p class="subtitle">{{ 'LANDING_JOIN_US_INTRO' | translate }}</p>
+        <h3>{{ 'LANDING_JOIN_US_TODAY' | translate }}</h3>
+        <p>{{ 'LANDING_JOIN_US_TODAY_DESCRIPTION' | translate }}</p>
+        <div layout="row" layout-align="center center">
+            <form ng-submit="notifyVendor()" layout="column"  id="JoinUsForm" name="JoinUsForm" novalidate class="sign-up-form signup-vendor">
+              <div layout="column" layout-margin>
+                <label>{{ 'LANDING_SIGNUP_COMPANY' | translate }}</label>
+                <div layout-gt-md="row" layout-align-gt-md="space-between center" layout="column" class="input-row">
+                    <div flex-gt-md="50">
+                        <input ng-model="joinUs.name" required type="text" placeholder="{{ 'LANDING_SIGNUP_NAME' | translate }} *"></input>
+                    </div>
+                    <div flex-gt-md="50">
+                        <input ng-model="joinUs.website_url" type="text" placeholder="{{ 'LANDING_SIGNUP_WEBSITE' | translate }}"></input>
+                    </div>
+                </div>
+                <label>{{ 'LANDING_SIGNUP_CONTACT' | translate }}</label>
+                <div layout-gt-md="row" layout-align-gt-md="space-between center" layout="column" class="input-row">
+                    <div flex-gt-md="50">
+                        <input ng-model="joinUs.email" required type="email" placeholder="{{ 'LANDING_SIGNUP_EMAIL' | translate }} *"></input>
+                    </div>
+                    <div flex-gt-md="50">
+                        <input ng-model="joinUs.phone_number" type="tel" placeholder="{{ 'LANDING_SIGNUP_PHONE' | translate }}"></input>
+                    </div>
+                </div>
+                <div layout-gt-md="row" layout-align-gt-md="space-between center" layout="column" class="input-row">
+                  <input ng-model="joinUs.address" type="text" placeholder="{{ 'LANDING_SIGNUP_ADDRESS' | translate }}"></input>
+                </div>
+                <label>{{ 'LANDING_SIGNUP_PRODUCTS' | translate }}</label>
+                <div layout-gt-md="row" layout-align-gt-md="space-between center" layout="column" class="input-row">
+                  <input ng-model="joinUs.products_description" type="text"></input>
+                </div>
+                <label>{{ 'LANDING_SIGNUP_OTHER_PRODUCTS' | translate }}</label>
+                <div layout-gt-md="row" layout-align-gt-md="space-between center" layout="column" class="input-row">
+                  <input ng-model="joinUs.extra_description" type="text"></input>
+                </div>
+                <label>{{ 'LANDING_SIGNUP_SOCIAL_MEDIA' | translate }}</label>
+                <div layout-gt-md="row" layout-align-gt-md="space-between center" layout="column" class="input-row">
+                    <div flex-gt-md="50">
+                        <input ng-model="joinUs.social_facebook" type="text" placeholder="{{ 'LANDING_SIGNUP_FACEBOOK' | translate }}"></input>
+                    </div>
+                    <div flex-gt-md="50">
+                        <input ng-model="joinUs.social_instagram" type="text" placeholder="{{ 'LANDING_SIGNUP_INSTAGRAM' | translate }}"></input>
+                    </div>
+                </div>
+                <div layout-gt-md="row" layout-align-gt-md="space-between center" layout="column" class="input-row">
+                    <div flex-gt-md="50">
+                        <input ng-model="joinUs.social_other" type="text" placeholder="{{ 'LANDING_SIGNUP_SOCIAL_OTHER' | translate }}"></input>
+                    </div>
+                </div>
+                <label>{{ 'LANDING_SIGNUP_BUSINESS' | translate }}</label>
+                <div layout-gt-md="row" layout-align-gt-md="space-between center" layout="column">
+                  <input ng-model="joinUs.business_description" type="text"></input>
+                </div>
+                <label>{{ 'LANDING_SIGNUP_CERTIFICATIONS' | translate }}</label>
+                <div layout-gt-md="row" layout-align-gt-md="space-between center" layout="column">
+                  <input ng-model="joinUs.certifications" type="text" placeholder="{{ 'LANDING_SIGNUP_CERTIFICATIONS_EXAMPLE' | translate }}"></input>
+                </div>
+                <label>{{ 'LANDING_SIGNUP_PHOTOS' | translate }}</label>
+                <div layout="column">
+                    <div ng-repeat="item in uploadPhotos.queue" layout-align="center center" layout="row" class="image-list">
+                        <div class="btnUpload file">
+                            <span>{{item.file.name | limitTo:15 }}</span>
+                            <a ng-click="item.remove()" class="right">
+                                <md-icon style="cursor:pointer; color: #fb5464;">cancel</md-icon>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div layout="row" layout-align="center center">
+                    <input ng-hide="true" id="uploadPhotoInput" type="file" nv-file-select="" accept="image/x-png, image/gif, image/jpeg" uploader="uploadPhotos" multiple/>
+                    <label for="uploadPhotoInput" class="md-button round-button">{{ 'LANDING_SIGNUP_UPLOAD_PHOTOS' | translate }}</label>
+                </div>
+                <div layout="row" layout-align="center center">
+                    <md-button ng-disabled="JoinUsForm.$invalid" type="submit" class="round-button">{{ 'LANDING_SEND' | translate }}</md-button>
+                </div>
+              </div>
+            </form>
+        </div>
+    </div>
+</div>

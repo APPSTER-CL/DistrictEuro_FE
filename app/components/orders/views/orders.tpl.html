@@ -1,0 +1,71 @@
+<div ui-view>
+  <h1 class="de-subheader de-content-first">{{ 'ORDERS_TITLE' | translate }}</h1>
+  <md-card layout-padding md-whiteframe="4">
+    <h3>{{ 'ORDERS_PENDINGTITLE' | translate }}</h3>
+    <md-list>
+      <md-list-item class="order-list-row" ng-repeat="order in orders.results">
+        <div class="order-cell">
+          <de-order-date date="{{order.created}}"></de-order-date>
+        </div>
+        <div flex class="order-cell" layout="row">
+          <div class="order-status" layout="row">
+            <div flex="20" layout-align="center">
+              <md-icon ng-if="order.status_id=='PRG'" md-svg-src="assets/icons/icProgress.svg" class="order-icon"></md-icon>
+              <md-icon ng-if="order.status_id=='SHP'" md-svg-src="assets/icons/icShipped.svg" class="order-icon"></md-icon>
+              <md-icon ng-if="order.status_id=='PEN'" md-svg-src="assets/icons/icPending.svg" class="order-icon"></md-icon>
+              <md-icon ng-if="order.status_id=='RET'" md-svg-src="assets/icons/icReturn.svg" class="order-icon"></md-icon>
+            </div>
+            <span flex="80">{{order.status}}</span>
+          </div>
+        </div>
+        <div flex class="order-cell"><span>{{ 'ORDERS_NUMBER' | translate }} </span>{{order.id}}</div>
+        <div flex class="order-cell">{{order.consumer_full_name}}</div>
+        <div flex class="order-cell"><span>{{ 'ORDERS_ORDERQUANTITY' | translate }}: </span>{{order.total_quantity}}</div>
+        <div class="order-cell">
+          <a ui-sref="orders.detail({ orderId: order.id })" class="md-icon-button">
+            <md-icon md-svg-icon="assets/icons/icArrowRight.svg" class="order-detail-icon"></md-icon>
+          </a>
+        </div>
+      </md-list-item>
+    </md-list>
+    <div layout="row" layout-align="start">
+      <ul class="pagination">
+        <li ng-class="{ 'disabled': orders.previous == null }"><a ng-click="getOrders({url: orders.previous})">«</a></li>
+        <li ng-class="{ 'disabled': orders.next == null }"><a ng-click="getOrders({url: orders.next})">»</a></li>
+      </ul>
+    </div>
+  </md-card>
+  <md-card class="page" layout-padding md-whiteframe="4">
+    <h3>{{ 'ORDERS_HISTORYTITLE' | translate }}</h3>
+    <md-list>
+      <md-list-item class="order-list-row" ng-repeat="order in order_history.results">
+        <div class="order-cell">
+          <de-order-date date="{{order.created}}"></de-order-date>
+        </div>
+        <div flex class="order-cell" layout="row">
+          <div class="order-status" layout="row">
+            <div flex="20" layout-align="center">
+              <md-icon ng-if="order.status_id=='DLV'" md-svg-src="assets/icons/icDelivered.svg" class="order-icon"></md-icon>
+              <md-icon ng-if="order.status_id=='RET'" md-svg-src="assets/icons/icReturn.svg" class="order-icon"></md-icon>
+            </div>
+            <span flex="80">{{order.status}}</span>
+          </div>
+        </div>
+        <div flex class="order-cell"><span>{{ 'ORDERS_NUMBER' | translate }} </span>{{order.id}}</div>
+        <div flex class="order-cell">{{order.consumer_full_name}}</div>
+        <div flex class="order-cell"><span>{{ 'ORDERS_ORDERQUANTITY' | translate }}: </span>{{order.total_quantity}}</div>
+        <div class="order-cell">
+          <a ui-sref="orders.detail({ orderId: order.id })" class="md-icon-button">
+            <md-icon md-svg-icon="assets/icons/icArrowRight.svg" class="order-detail-icon"></md-icon>
+          </a>
+        </div>
+      </md-list-item>
+    </md-list>
+    <div layout="row" layout-align="start">
+      <ul class="pagination">
+        <li ng-class="{ 'disabled': order_history.previous == null }"><a ng-click="getOrders(order_history.previous)">«</a></li>
+        <li ng-class="{ 'disabled': order_history.next == null }"><a ng-click="getOrders(order_history.next)">»</a></li>
+      </ul>
+    </div>
+  </md-card>
+</div>
