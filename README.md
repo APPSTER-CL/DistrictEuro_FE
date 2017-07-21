@@ -3,7 +3,7 @@
 Install Node.js and then:
 
 ```sh
-$ git clone https://USERNAME@bitbucket.org/asapuy/kate_district_euro_frontend.git
+$ git clone https://github.com/APPSTER-CL/DistrictEuro_FE.git
 $ sudo npm -g install grunt-cli karma bower
 $ npm install
 $ bower install

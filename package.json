@@ -2,10 +2,10 @@
   "author": "ASAP",
   "name": "district-euro-fe",
   "version": "0.0.1",
-  "homepage": "http://www.asap.uy",
+  "homepage": "http://www.appster.cl",
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org/asapuy/kate_district_euro_frontend.git"
+    "url": "https://github.com/APPSTER-CL/DistrictEuro_FE.git"
   },
   "licenses": {
     "type": "",

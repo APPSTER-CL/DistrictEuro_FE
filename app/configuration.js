@@ -34,16 +34,16 @@ var baseSiteUrl = "http://localhost:5555/";
 
 if (currentEnvironment == environments.test) {
   // Staging
-  baseApiUrl = "https://apitest.oumimen.com";
-  baseSiteUrl = "https://test.oumimen.com/";
+  baseApiUrl = "https://apitest.districteuro.com";
+  baseSiteUrl = "https://test.districteuro.com/";
 } else if (currentEnvironment == environments.demo) {
   // Production
-  baseApiUrl = "https://apidemo.oumimen.com";
-  baseSiteUrl = "https://demo.oumimen.com/";
+  baseApiUrl = "https://apidemo.districteuro.com";
+  baseSiteUrl = "https://demo.districteuro.com/";
 } else if (currentEnvironment == environments.prod) {
   // Production
-  baseApiUrl = "https://api.oumimen.com";
-  baseSiteUrl = "https://www.oumimen.com/";
+  baseApiUrl = "https://api.districteuro.com";
+  baseSiteUrl = "https://www.districteuro.com/";
 }
 
 window.configuration = {
